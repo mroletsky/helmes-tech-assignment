@@ -29,7 +29,7 @@ The backend stores the sector hierarchy, user data, and user sector selections i
 
 ### Technology Stack
 
-- **Java 21**
+- **Java 17+**
 - **Spring Boot 3**
 - **Spring Data JPA**
 - **PostgreSQL**
