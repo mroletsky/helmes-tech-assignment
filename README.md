@@ -111,11 +111,12 @@ npm run dev
 
 ## Usage
 
-1. Start the backend (`./mvnw spring-boot:run`)
-2. Start the frontend (`npm run dev`)
-3. Open browser: `http://localhost:5173`
-4. Enter username, select sectors, agree to terms, click Save
-5. The form will refill with saved data; selections can be edited during the session and any other time by using the same username.
+1. Start docker (`docker compose up -d`)
+2. Start the backend (`./mvnw spring-boot:run`)
+3. Start the frontend (`npm run dev`)
+4. Open browser: `http://localhost:5173`
+5. Enter username, select sectors, agree to terms, click Save
+6. The form will refill with saved data; selections can be edited during the session and any other time by using the same username.
 
 ## Notes
 
