@@ -123,4 +123,4 @@ npm run dev
 - Backend enforces input validation; invalid sector IDs return `400 Bad Request`.
 - Frontend performs client-side validation for better UX.
 - Nested sector tree is dynamically fetched from the backend.
-- No additional setup is required for the database; Docker takes care of running PostgreSQL if the engine is running.
+- No additional setup is required for the database; Docker takes care of running PostgreSQL if the engine is running; NB! Running docker manually is required for integration tests however.
