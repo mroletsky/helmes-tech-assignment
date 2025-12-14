@@ -1,0 +1,463 @@
+--
+-- PostgreSQL database dump
+--
+
+\restrict aTmZ2fliAwnh5evskd2TC6HxcgAQPJsEjUATeGVspuctFJgwRkb4gf6vEMDodSd
+
+-- Dumped from database version 15.15 (Debian 15.15-1.pgdg13+1)
+-- Dumped by pg_dump version 18.0
+
+-- Started on 2025-12-15 01:07:12
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 3598 (class 1262 OID 16384)
+-- Name: sectorsdb; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE sectorsdb WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'en_US.utf8';
+
+
+ALTER DATABASE sectorsdb OWNER TO postgres;
+
+\unrestrict aTmZ2fliAwnh5evskd2TC6HxcgAQPJsEjUATeGVspuctFJgwRkb4gf6vEMDodSd
+\connect sectorsdb
+\restrict aTmZ2fliAwnh5evskd2TC6HxcgAQPJsEjUATeGVspuctFJgwRkb4gf6vEMDodSd
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 2 (class 3079 OID 16385)
+-- Name: ltree; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS ltree WITH SCHEMA public;
+
+
+--
+-- TOC entry 3599 (class 0 OID 0)
+-- Dependencies: 2
+-- Name: EXTENSION ltree; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION ltree IS 'data type for hierarchical tree-like structures';
+
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 219 (class 1259 OID 16699)
+-- Name: app_user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.app_user (
+    id integer NOT NULL,
+    username text NOT NULL,
+    agree_to_terms boolean
+);
+
+
+ALTER TABLE public.app_user OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 16698)
+-- Name: app_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.app_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.app_user_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3600 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: app_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.app_user_id_seq OWNED BY public.app_user.id;
+
+
+--
+-- TOC entry 215 (class 1259 OID 16676)
+-- Name: flyway_schema_history; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.flyway_schema_history (
+    installed_rank integer NOT NULL,
+    version character varying(50),
+    description character varying(200) NOT NULL,
+    type character varying(20) NOT NULL,
+    script character varying(1000) NOT NULL,
+    checksum integer,
+    installed_by character varying(100) NOT NULL,
+    installed_on timestamp without time zone DEFAULT now() NOT NULL,
+    execution_time integer NOT NULL,
+    success boolean NOT NULL
+);
+
+
+ALTER TABLE public.flyway_schema_history OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 16686)
+-- Name: sector; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.sector (
+    id integer NOT NULL,
+    name text NOT NULL,
+    path public.ltree NOT NULL,
+    code text,
+    description text,
+    is_active boolean DEFAULT true,
+    created_at timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.sector OWNER TO postgres;
+
+--
+-- TOC entry 216 (class 1259 OID 16685)
+-- Name: sector_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.sector_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.sector_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3601 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: sector_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.sector_id_seq OWNED BY public.sector.id;
+
+
+--
+-- TOC entry 220 (class 1259 OID 16709)
+-- Name: user_sector_selection; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_sector_selection (
+    user_id integer NOT NULL,
+    sector_id integer NOT NULL,
+    selected_at timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.user_sector_selection OWNER TO postgres;
+
+--
+-- TOC entry 3426 (class 2604 OID 16702)
+-- Name: app_user id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.app_user ALTER COLUMN id SET DEFAULT nextval('public.app_user_id_seq'::regclass);
+
+
+--
+-- TOC entry 3423 (class 2604 OID 16689)
+-- Name: sector id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sector ALTER COLUMN id SET DEFAULT nextval('public.sector_id_seq'::regclass);
+
+
+--
+-- TOC entry 3591 (class 0 OID 16699)
+-- Dependencies: 219
+-- Data for Name: app_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.app_user (id, username, agree_to_terms) FROM stdin;
+1	Markus	t
+2	Toomas	t
+3	TestUser123	t
+\.
+
+
+--
+-- TOC entry 3587 (class 0 OID 16676)
+-- Dependencies: 215
+-- Data for Name: flyway_schema_history; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.flyway_schema_history (installed_rank, version, description, type, script, checksum, installed_by, installed_on, execution_time, success) FROM stdin;
+1	1	init	SQL	V1__init.sql	-636837830	postgres	2025-12-14 17:37:07.790036	69	t
+\.
+
+
+--
+-- TOC entry 3589 (class 0 OID 16686)
+-- Dependencies: 217
+-- Data for Name: sector; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.sector (id, name, path, code, description, is_active, created_at) FROM stdin;
+1	Manufacturing	manufacturing	\N	\N	t	2025-12-14 15:37:07.812142+00
+2	Other	other	\N	\N	t	2025-12-14 15:37:07.812142+00
+3	Service	service	\N	\N	t	2025-12-14 15:37:07.812142+00
+4	Construction materials	manufacturing.construction_materials	\N	\N	t	2025-12-14 15:37:07.812142+00
+5	Electronics and Optics	manufacturing.electronics_and_optics	\N	\N	t	2025-12-14 15:37:07.812142+00
+6	Food and Beverage	manufacturing.food_and_beverage	\N	\N	t	2025-12-14 15:37:07.812142+00
+7	Furniture	manufacturing.furniture	\N	\N	t	2025-12-14 15:37:07.812142+00
+8	Machinery	manufacturing.machinery	\N	\N	t	2025-12-14 15:37:07.812142+00
+9	Metalworking	manufacturing.metalworking	\N	\N	t	2025-12-14 15:37:07.812142+00
+10	Plastic and Rubber	manufacturing.plastic_and_rubber	\N	\N	t	2025-12-14 15:37:07.812142+00
+11	Printing	manufacturing.printing	\N	\N	t	2025-12-14 15:37:07.812142+00
+12	Textile and Clothing	manufacturing.textile_and_clothing	\N	\N	t	2025-12-14 15:37:07.812142+00
+13	Wood	manufacturing.wood	\N	\N	t	2025-12-14 15:37:07.812142+00
+14	Bakery & confectionery products	manufacturing.food_and_beverage.bakery_and_confectionery_products	\N	\N	t	2025-12-14 15:37:07.812142+00
+15	Beverages	manufacturing.food_and_beverage.beverages	\N	\N	t	2025-12-14 15:37:07.812142+00
+16	Fish & fish products	manufacturing.food_and_beverage.fish_and_fish_products	\N	\N	t	2025-12-14 15:37:07.812142+00
+17	Meat & meat products	manufacturing.food_and_beverage.meat_and_meat_products	\N	\N	t	2025-12-14 15:37:07.812142+00
+18	Milk & dairy products	manufacturing.food_and_beverage.milk_and_dairy_products	\N	\N	t	2025-12-14 15:37:07.812142+00
+19	Other	manufacturing.food_and_beverage.other	\N	\N	t	2025-12-14 15:37:07.812142+00
+20	Sweets & snack food	manufacturing.food_and_beverage.sweets_and_snack_food	\N	\N	t	2025-12-14 15:37:07.812142+00
+21	Bathroom/sauna	manufacturing.furniture.bathroom_sauna	\N	\N	t	2025-12-14 15:37:07.812142+00
+22	Bedroom	manufacturing.furniture.bedroom	\N	\N	t	2025-12-14 15:37:07.812142+00
+23	Children’s room	manufacturing.furniture.childrens_room	\N	\N	t	2025-12-14 15:37:07.812142+00
+24	Kitchen	manufacturing.furniture.kitchen	\N	\N	t	2025-12-14 15:37:07.812142+00
+25	Living room	manufacturing.furniture.living_room	\N	\N	t	2025-12-14 15:37:07.812142+00
+26	Office	manufacturing.furniture.office	\N	\N	t	2025-12-14 15:37:07.812142+00
+27	Other (Furniture)	manufacturing.furniture.other	\N	\N	t	2025-12-14 15:37:07.812142+00
+28	Outdoor	manufacturing.furniture.outdoor	\N	\N	t	2025-12-14 15:37:07.812142+00
+29	Project furniture	manufacturing.furniture.project_furniture	\N	\N	t	2025-12-14 15:37:07.812142+00
+30	Machinery components	manufacturing.machinery.components	\N	\N	t	2025-12-14 15:37:07.812142+00
+31	Machinery equipment/tools	manufacturing.machinery.equipment_tools	\N	\N	t	2025-12-14 15:37:07.812142+00
+32	Manufacture of machinery	manufacturing.machinery.manufacture	\N	\N	t	2025-12-14 15:37:07.812142+00
+33	Maritime	manufacturing.machinery.maritime	\N	\N	t	2025-12-14 15:37:07.812142+00
+34	Metal structures	manufacturing.machinery.metal_structures	\N	\N	t	2025-12-14 15:37:07.812142+00
+35	Other	manufacturing.machinery.other	\N	\N	t	2025-12-14 15:37:07.812142+00
+36	Repair and maintenance service	manufacturing.machinery.repair_and_maintenance	\N	\N	t	2025-12-14 15:37:07.812142+00
+37	Aluminium and steel workboats	manufacturing.machinery.maritime.aluminium_and_steel_workboats	\N	\N	t	2025-12-14 15:37:07.812142+00
+38	Boat/Yacht building	manufacturing.machinery.maritime.boat_and_yacht_building	\N	\N	t	2025-12-14 15:37:07.812142+00
+39	Ship repair and conversion	manufacturing.machinery.maritime.ship_repair_and_conversion	\N	\N	t	2025-12-14 15:37:07.812142+00
+40	Construction of metal structures	manufacturing.metalworking.construction_of_metal_structures	\N	\N	t	2025-12-14 15:37:07.812142+00
+41	Houses and buildings	manufacturing.metalworking.houses_and_buildings	\N	\N	t	2025-12-14 15:37:07.812142+00
+42	Metal products	manufacturing.metalworking.metal_products	\N	\N	t	2025-12-14 15:37:07.812142+00
+43	Metal works	manufacturing.metalworking.metal_works	\N	\N	t	2025-12-14 15:37:07.812142+00
+44	CNC-machining	manufacturing.metalworking.metal_works.cnc_machining	\N	\N	t	2025-12-14 15:37:07.812142+00
+45	Forgings, Fasteners	manufacturing.metalworking.metal_works.forgings_and_fasteners	\N	\N	t	2025-12-14 15:37:07.812142+00
+46	Gas, Plasma, Laser cutting	manufacturing.metalworking.metal_works.cutting	\N	\N	t	2025-12-14 15:37:07.812142+00
+47	MIG, TIG, Aluminum welding	manufacturing.metalworking.metal_works.welding	\N	\N	t	2025-12-14 15:37:07.812142+00
+48	Packaging	manufacturing.plastic_and_rubber.packaging	\N	\N	t	2025-12-14 15:37:07.812142+00
+49	Plastic goods	manufacturing.plastic_and_rubber.plastic_goods	\N	\N	t	2025-12-14 15:37:07.812142+00
+50	Plastic processing technology	manufacturing.plastic_and_rubber.processing_technology	\N	\N	t	2025-12-14 15:37:07.812142+00
+51	Plastic profiles	manufacturing.plastic_and_rubber.plastic_profiles	\N	\N	t	2025-12-14 15:37:07.812142+00
+52	Blowing	manufacturing.plastic_and_rubber.processing_technology.blowing	\N	\N	t	2025-12-14 15:37:07.812142+00
+53	Moulding	manufacturing.plastic_and_rubber.processing_technology.moulding	\N	\N	t	2025-12-14 15:37:07.812142+00
+54	Plastics welding and processing	manufacturing.plastic_and_rubber.processing_technology.welding_and_processing	\N	\N	t	2025-12-14 15:37:07.812142+00
+55	Advertising	manufacturing.printing.advertising	\N	\N	t	2025-12-14 15:37:07.812142+00
+56	Book/Periodicals printing	manufacturing.printing.book_and_periodicals	\N	\N	t	2025-12-14 15:37:07.812142+00
+57	Labelling and packaging printing	manufacturing.printing.labelling_and_packaging	\N	\N	t	2025-12-14 15:37:07.812142+00
+58	Clothing	manufacturing.textile_and_clothing.clothing	\N	\N	t	2025-12-14 15:37:07.812142+00
+59	Textile	manufacturing.textile_and_clothing.textile	\N	\N	t	2025-12-14 15:37:07.812142+00
+60	Other (Wood)	manufacturing.wood.other	\N	\N	t	2025-12-14 15:37:07.812142+00
+61	Wooden building materials	manufacturing.wood.building_materials	\N	\N	t	2025-12-14 15:37:07.812142+00
+62	Wooden houses	manufacturing.wood.houses	\N	\N	t	2025-12-14 15:37:07.812142+00
+63	Creative industries	other.creative_industries	\N	\N	t	2025-12-14 15:37:07.812142+00
+64	Energy technology	other.energy_technology	\N	\N	t	2025-12-14 15:37:07.812142+00
+65	Environment	other.environment	\N	\N	t	2025-12-14 15:37:07.812142+00
+66	Business services	service.business_services	\N	\N	t	2025-12-14 15:37:07.812142+00
+67	Engineering	service.engineering	\N	\N	t	2025-12-14 15:37:07.812142+00
+68	Information Technology and Telecommunications	service.it_and_telecommunications	\N	\N	t	2025-12-14 15:37:07.812142+00
+69	Tourism	service.tourism	\N	\N	t	2025-12-14 15:37:07.812142+00
+70	Translation services	service.translation_services	\N	\N	t	2025-12-14 15:37:07.812142+00
+71	Transport and Logistics	service.transport_and_logistics	\N	\N	t	2025-12-14 15:37:07.812142+00
+72	Data processing, Web portals, E-marketing	service.it_and_telecommunications.data_processing	\N	\N	t	2025-12-14 15:37:07.812142+00
+73	Programming, Consultancy	service.it_and_telecommunications.programming_and_consultancy	\N	\N	t	2025-12-14 15:37:07.812142+00
+74	Software, Hardware	service.it_and_telecommunications.software_and_hardware	\N	\N	t	2025-12-14 15:37:07.812142+00
+75	Telecommunications	service.it_and_telecommunications.telecommunications	\N	\N	t	2025-12-14 15:37:07.812142+00
+76	Air	service.transport_and_logistics.air	\N	\N	t	2025-12-14 15:37:07.812142+00
+77	Rail	service.transport_and_logistics.rail	\N	\N	t	2025-12-14 15:37:07.812142+00
+78	Road	service.transport_and_logistics.road	\N	\N	t	2025-12-14 15:37:07.812142+00
+79	Water	service.transport_and_logistics.water	\N	\N	t	2025-12-14 15:37:07.812142+00
+\.
+
+
+--
+-- TOC entry 3592 (class 0 OID 16709)
+-- Dependencies: 220
+-- Data for Name: user_sector_selection; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.user_sector_selection (user_id, sector_id, selected_at) FROM stdin;
+1	4	2025-12-14 22:38:21.872115+00
+1	5	2025-12-14 22:38:21.874586+00
+2	3	2025-12-14 16:48:09.05912+00
+2	6	2025-12-14 16:48:09.060786+00
+2	22	2025-12-14 16:48:09.063033+00
+2	9	2025-12-14 16:48:09.06471+00
+3	4	2025-12-14 22:35:07.850102+00
+3	42	2025-12-14 22:35:07.859433+00
+3	43	2025-12-14 22:35:07.861033+00
+3	63	2025-12-14 22:35:07.86315+00
+3	64	2025-12-14 22:35:07.865242+00
+3	44	2025-12-14 22:35:07.866825+00
+3	46	2025-12-14 22:35:07.868942+00
+3	45	2025-12-14 22:35:07.870456+00
+3	47	2025-12-14 22:35:07.872459+00
+\.
+
+
+--
+-- TOC entry 3602 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: app_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.app_user_id_seq', 3, true);
+
+
+--
+-- TOC entry 3603 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: sector_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.sector_id_seq', 79, true);
+
+
+--
+-- TOC entry 3438 (class 2606 OID 16706)
+-- Name: app_user app_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.app_user
+    ADD CONSTRAINT app_user_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3440 (class 2606 OID 16708)
+-- Name: app_user app_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.app_user
+    ADD CONSTRAINT app_user_username_key UNIQUE (username);
+
+
+--
+-- TOC entry 3429 (class 2606 OID 16683)
+-- Name: flyway_schema_history flyway_schema_history_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.flyway_schema_history
+    ADD CONSTRAINT flyway_schema_history_pk PRIMARY KEY (installed_rank);
+
+
+--
+-- TOC entry 3434 (class 2606 OID 16697)
+-- Name: sector sector_path_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sector
+    ADD CONSTRAINT sector_path_key UNIQUE (path);
+
+
+--
+-- TOC entry 3436 (class 2606 OID 16695)
+-- Name: sector sector_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sector
+    ADD CONSTRAINT sector_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3442 (class 2606 OID 16714)
+-- Name: user_sector_selection user_sector_selection_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_sector_selection
+    ADD CONSTRAINT user_sector_selection_pkey PRIMARY KEY (user_id, sector_id);
+
+
+--
+-- TOC entry 3430 (class 1259 OID 16684)
+-- Name: flyway_schema_history_s_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX flyway_schema_history_s_idx ON public.flyway_schema_history USING btree (success);
+
+
+--
+-- TOC entry 3431 (class 1259 OID 16726)
+-- Name: idx_sector_path_btree; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx_sector_path_btree ON public.sector USING btree (path);
+
+
+--
+-- TOC entry 3432 (class 1259 OID 16725)
+-- Name: idx_sector_path_gist; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx_sector_path_gist ON public.sector USING gist (path);
+
+
+--
+-- TOC entry 3443 (class 2606 OID 16720)
+-- Name: user_sector_selection user_sector_selection_sector_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_sector_selection
+    ADD CONSTRAINT user_sector_selection_sector_id_fkey FOREIGN KEY (sector_id) REFERENCES public.sector(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3444 (class 2606 OID 16715)
+-- Name: user_sector_selection user_sector_selection_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_sector_selection
+    ADD CONSTRAINT user_sector_selection_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.app_user(id) ON DELETE CASCADE;
+
+
+-- Completed on 2025-12-15 01:07:12
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict aTmZ2fliAwnh5evskd2TC6HxcgAQPJsEjUATeGVspuctFJgwRkb4gf6vEMDodSd
+
