@@ -63,7 +63,7 @@ cd backend
 docker compose up -d
 ```
 
-3. Run the Spring Boot application via GUI:
+3. Run the Spring Boot application via the IntelliJ GUI:
 
 ```java
    com.example.helmestechassignment.HelmesTechAssignmentApplication
@@ -108,11 +108,12 @@ npm run dev
 - Node.js 18+
 - NPM 9+
 - Docker
+- IntelliJ
 
 ## Usage
 
 1. Start docker (`docker compose up -d`)
-2. Start the backend (`./mvnw spring-boot:run`)
+2. Start the backend via IDE GUI
 3. Start the frontend (`npm run dev`)
 4. Open browser: `http://localhost:5173`
 5. Enter username, select sectors, agree to terms, click Save
