@@ -27,7 +27,7 @@ public class UserSectorController {
         return userSectorService.saveUserSectors(request);
     }
 
-    // Refill form / Edit during session
+    // Refill form
     @GetMapping("/{username}")
     public UserSectorResponse get(@PathVariable String username) {
         return userSectorService.getUserData(username);
