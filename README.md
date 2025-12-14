@@ -57,7 +57,7 @@ The backend stores the sector hierarchy, user data, and user sector selections i
 cd backend
 ```
 
-2. Run the docker container (only necessary when also running integration tests):
+2. Run the docker container:
 
 ```bash
 docker compose up -d
@@ -107,7 +107,7 @@ npm run dev
 - Maven
 - Node.js 18+
 - NPM 9+
-- Docker Engine running (PostgreSQL container will be automatically started by Spring Boot)
+- Docker
 
 ## Usage
 
