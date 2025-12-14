@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface UserSectorSelectionRepository extends JpaRepository<UserSectorSelection, UserSectorSelectionId> {
-    List<UserSectorSelection> findByUserId(Integer userId);
-    List<UserSectorSelection> findBySectorId(Integer sectorId);
+    List<UserSectorSelection> findByUserId(Long userId);
+    List<UserSectorSelection> findBySectorId(Long sectorId);
+    void deleteByUserId(Long userId);
 }

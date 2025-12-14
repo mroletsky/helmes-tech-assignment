@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface SectorRepository extends JpaRepository<Sector, Integer> {
+public interface SectorRepository extends JpaRepository<Sector, Long> {
     Optional<Sector> findByPath(String path);
 
     @Query(value = "SELECT * FROM sector WHERE path <@ CAST(:path AS ltree) ORDER BY path", nativeQuery = true)
