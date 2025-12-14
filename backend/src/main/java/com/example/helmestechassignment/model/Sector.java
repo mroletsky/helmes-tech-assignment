@@ -16,7 +16,7 @@ import java.time.OffsetDateTime;
 @Table(name = "sector")
 public class Sector {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;

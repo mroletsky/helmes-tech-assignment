@@ -14,8 +14,8 @@ import java.time.OffsetDateTime;
 @Table(name = "user_sector_selection")
 @IdClass(UserSectorSelectionId.class)
 public class UserSectorSelection {
-    @Id @Column(name = "user_id") private Integer userId;
-    @Id @Column(name = "sector_id") private Integer sectorId;
+    @Id @Column(name = "user_id") private Long userId;
+    @Id @Column(name = "sector_id") private Long sectorId;
     @Column(name = "selected_at") private OffsetDateTime selectedAt;
 
     @PrePersist void prePersist() { if (selectedAt == null) selectedAt = OffsetDateTime.now(); }

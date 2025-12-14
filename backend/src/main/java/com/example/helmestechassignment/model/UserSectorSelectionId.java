@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class UserSectorSelectionId implements Serializable {
-    private Integer userId;
-    private Integer sectorId;
+    private Long userId;
+    private Long sectorId;
 
     public UserSectorSelectionId() {}
 
-    public UserSectorSelectionId(Integer userId, Integer sectorId) {
+    public UserSectorSelectionId(Long userId, Long sectorId) {
         this.userId = userId;
         this.sectorId = sectorId;
     }
