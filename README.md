@@ -63,10 +63,10 @@ cd backend
 docker compose up -d
 ```
 
-3. Run the Spring Boot application
+3. Run the Spring Boot application via GUI:
 
-```bash
-./mvnw spring-boot:run
+```java
+   com.example.helmestechassignment.HelmesTechAssignmentApplication
 ```
 
 4. Backend runs on `http://localhost:8080`.
