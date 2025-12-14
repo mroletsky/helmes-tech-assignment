@@ -51,11 +51,16 @@ The backend stores the sector hierarchy, user data, and user sector selections i
 
 ### Running the Backend
 
-1. Make sure **Docker Engine** is running (PostgreSQL runs in a container via Spring Boot).  
-2. Navigate to the backend folder:
+1. Navigate to the backend folder:
 
 ```bash
 cd backend
+```
+
+2. Run the docker container (only necessary when also running integration tests):
+
+```bash
+docker compose up -d
 ```
 
 3. Run the Spring Boot application
